@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Lite</title>
+  <title>Pango Rental Manager</title>
 
   @include('backend.layouts.css')
 

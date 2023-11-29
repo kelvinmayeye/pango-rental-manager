@@ -70,7 +70,7 @@
               <li class="nav-item">
                 <a href="" class="nav-link">
                   <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Leases</p>
+                  <p>Lease</p>
                 </a>
               </li>
             </ul>
@@ -79,7 +79,7 @@
             <a href="#" class="nav-link">
               <i class="fas fa-cog"></i>
               <p>
-                Settings
+                Payments
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -87,37 +87,7 @@
               <li class="nav-item">
                 <a href="" class="nav-link">
                   <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Countries</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Regions</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Seats</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Trip</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Passenger Types</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fas fa-caret-right nav-icon"></i>
-                  <p>Identification Types</p>
+                  <p>Payment</p>
                 </a>
               </li>
             </ul>
