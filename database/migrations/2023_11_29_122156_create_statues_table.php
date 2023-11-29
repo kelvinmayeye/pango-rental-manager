@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenant_properties', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id')->constrained();
-            $table->foreignId('property_id')->constrained();
-            $table->boolean('is_active')->default(0);
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenant_properties');
+        Schema::dropIfExists('statues');
     }
 };

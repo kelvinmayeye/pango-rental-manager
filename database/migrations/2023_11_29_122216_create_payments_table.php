@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('amount')->default(0);
+            $table->foreignId('tenant_id')->constrained();
+            $table->foreignId('lease_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
