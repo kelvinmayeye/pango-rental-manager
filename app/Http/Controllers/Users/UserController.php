@@ -39,7 +39,6 @@ class UserController extends Controller {
             'last_name'=>'required|max:30',
             'email'=>'required|email|unique:users',
             'phone_number'=>'required|unique:users',
-            'password'=>'required|min:8|confirmed'
         ] );
 
 
@@ -49,7 +48,7 @@ class UserController extends Controller {
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
-        $user->password = bcrypt( $request->password );
+        $user->password = bcrypt( $request->phone_number );
         try {
             $user->save();
             Session::flash( 'success', 'successfully Registerd' );

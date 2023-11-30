@@ -25,7 +25,7 @@
                                     <span style="color: #1eff00">{{ Session::get('success') }}</span>
                                 </div>
                                 @endif
-                                <form action="{{ route('users.store') }}" method="POST">
+                                <form action="{{ route('registration') }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-4">
