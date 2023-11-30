@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tenants;
 
+use App\Http\Controllers\Controller;
 use App\Models\Tenants\TenantProperty;
 use Illuminate\Http\Request;
 

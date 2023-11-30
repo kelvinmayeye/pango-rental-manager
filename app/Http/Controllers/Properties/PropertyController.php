@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Properties;
 
+use App\Http\Controllers\Controller;
 use App\Models\Properties\Property;
 use Illuminate\Http\Request;
 

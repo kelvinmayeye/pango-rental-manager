@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Properties;
 
+use App\Http\Controllers\Controller;
 use App\Models\Categories\Category;
 use Illuminate\Http\Request;
 

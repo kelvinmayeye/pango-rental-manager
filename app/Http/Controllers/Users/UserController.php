@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Users;
 
+
 use App\Models\Users\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller {
     /**
@@ -29,6 +32,7 @@ class UserController extends Controller {
     */
 
     public function store( Request $request ) {
+        
         $this->validate( $request, [
             'first_name'=>'required|max:30',
             'middle_name'=>'nullable|max:30',
@@ -37,6 +41,7 @@ class UserController extends Controller {
             'phone_number'=>'required|unique:users',
             'password'=>'required|min:8|confirmed'
         ] );
+
 
         $user = new User();
         $user->first_name = $request->first_name;
@@ -48,9 +53,10 @@ class UserController extends Controller {
         try {
             $user->save();
             Session::flash( 'success', 'successfully Registerd' );
-            return redirect()->route( 'users.index' );
+            return back();
         } catch ( QueryException $exception ) {
             Session::flash( 'error', 'Failed to store user try again' );
+            return back();
         }
     }
 
@@ -136,5 +142,9 @@ class UserController extends Controller {
             Session::flash( 'error', 'Failed to be deleted' );
             return back();
         }
+    }
+
+    public function register(){
+        return view('auth.signup');
     }
 }
