@@ -13,7 +13,8 @@ class TenantController extends Controller
      */
     public function index()
     {
-        //
+        $tenants = Tenant::all();
+        return view('backend.tenants.index',compact('tenants'));
     }
 
     /**

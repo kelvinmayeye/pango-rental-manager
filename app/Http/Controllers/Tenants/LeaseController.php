@@ -13,7 +13,12 @@ class LeaseController extends Controller
      */
     public function index()
     {
-        //
+        
+        $leases = Lease::whereHas('tenantProperty.property.user', function ($query) {
+            $query->where('id', auth()->user()->id);
+        })->paginate(10);
+
+        return view('backend.leases.index',compact('leases'));
     }
 
     /**

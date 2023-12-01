@@ -13,7 +13,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //
+        $properties = Property::where('user_id',auth()->user()->id)->latest()->paginate(10);
+        return view('backend.properties.index',compact('properties'));
     }
 
     /**

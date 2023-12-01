@@ -7,13 +7,15 @@ use App\Models\Tenants\Tenant;
 use App\Models\Properties\Property;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TenantProperty extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function properties():BelongsTo
+    public function property():BelongsTo
     {
         return $this->belongsTo(Property::class);
     }
