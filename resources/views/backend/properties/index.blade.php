@@ -12,7 +12,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4>Properties</h4>
-                                <a href="" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
+                                <a href="{{ route('properties.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
                                         class="px-1">Property</span></a>
                             </div>
                         </div>
@@ -29,22 +29,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        @foreach ($properties as $key => $property)
                                         <tr>
-                                            <td>1</td>
-                                            <td>Edga John Zim</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $property->name }}</td>
+                                            <td>{{ $property->description }}</td>
+                                            <td>{{ $property->category->name }}</td>
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <div>
-                                                        <a href="" type="button" class="btn btn-primary">
+                                                        <a href="{{ route('properties.show',$property->id) }}" type="button" class="btn btn-primary">
                                                             <i class="bi bi-eye"></i></a>
                                                     </div>
                                                     <div>
-                                                        <a href="" type="button" class="btn btn-success mx-2">
+                                                        <a href="{{ route('properties.edit',$property->id) }}" type="button" class="btn btn-success mx-2">
                                                             <i class="bi bi-pencil-square"></i></a>
                                                     </div>
-                                                    <form action="" method="POST">
+                                                    <form action="{{ route('properties.destroy',$property->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger delete-confirmation"
@@ -54,6 +55,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>
