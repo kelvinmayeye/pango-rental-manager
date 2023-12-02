@@ -87,12 +87,19 @@ class CategoryController extends Controller
             Session::flash('error', 'Category not found');
             return back();
         }
-        try {
-            $category->delete();
-            Session::flash('success', 'Category deleted successfully');
-            return redirect()->route('category.index');
-        } catch (QueryException $exception) {
-            Session::flash('error', 'Failed to be deleted');
+
+        if ($category->properties->isEmpty()) {
+            try {
+                $category->delete();
+                Session::flash('success', 'Category deleted successfully');
+                return redirect()->route('category.index');
+            } catch (QueryException $exception) {
+                Session::flash('error', 'Failed to be deleted');
+                return back();
+            }
+            // Perform any additional actions or redirection as needed
+        } else {
+            Session::flash('error', 'Cant delete category has property');
             return back();
         }
     }
