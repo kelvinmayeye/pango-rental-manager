@@ -2,66 +2,132 @@
 
 namespace App\Http\Controllers\Tenants;
 
-use App\Http\Controllers\Controller;
-use App\Models\Tenants\Tenant;
 use Illuminate\Http\Request;
+use App\Models\Tenants\Tenant;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 
-class TenantController extends Controller
-{
+class TenantController extends Controller {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $tenants = Tenant::all();
-        return view('backend.tenants.index',compact('tenants'));
+    * Display a listing of the resource.
+    */
+
+    public function index() {
+        $tenants = Tenant::latest()->paginate( 10 );
+        return view( 'backend.tenants.index', compact( 'tenants' ) );
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    * Show the form for creating a new resource.
+    */
+
+    public function create() {
+        return view( 'backend.tenants.create' );
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    * Store a newly created resource in storage.
+    */
+
+    public function store( Request $request ) {
+        $tenant = new Tenant();
+        $tenant->first_name = $request->first_name;
+        $tenant->middle_name = $request->middle_name;
+        $tenant->last_name = $request->last_name;
+        $tenant->sex = $request->sex;
+        $tenant->birth_date = $request->birth_date;
+        $tenant->email = $request->email;
+        $tenant->phone_number = $request->phone_number;
+        $tenant->user_id = auth()->user()->id;
+        try {
+            $tenant->save();
+            Session::flash( 'success', 'Tenant successfully added' );
+            return redirect()->route( 'tenants.index' );
+        } catch ( QueryException $exception ) {
+            Session::flash( 'error', 'Failed to add tenant' );
+            return back();
+        }
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Tenant $tenant)
-    {
-        //
+    * Display the specified resource.
+    */
+
+    public function show( Tenant $tenant ) {
+        $tenant = Tenant::find($tenant->id);
+        if(!$tenant){
+            Session::flash( 'error', 'Tenant not found' );
+            return back();
+        }
+        return view('backend.tenants.show',compact('tenant'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tenant $tenant)
-    {
-        //
+    * Show the form for editing the specified resource.
+    */
+
+    public function edit( string $id ) {
+        $tenant = Tenant::find($id);
+        if(!$tenant){
+            Session::flash( 'error', 'Tenant not found' );
+            return back();
+        }
+        return view('backend.tenants.edit',compact('tenant'));
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Tenant $tenant)
-    {
-        //
+    * Update the specified resource in storage.
+    */
+
+    public function update( Request $request, string $id ) {
+        $tenant = Tenant::find($id);
+        if(!$tenant){
+            Session::flash( 'error', 'Tenant not found' );
+            return back();
+        }
+
+        $tenant->first_name = $request->first_name;
+        $tenant->middle_name = $request->middle_name;
+        $tenant->last_name = $request->last_name;
+        $tenant->sex = $request->sex;
+        $tenant->birth_date = $request->birth_date;
+        $tenant->email = $request->email;
+        $tenant->phone_number = $request->phone_number;
+        try {
+            $tenant->save();
+            Session::flash( 'success', 'Tenant successfully updated' );
+            return back();
+        } catch (QueryException $exception) {
+            Session::flash( 'error', 'Failed to delete' );
+            return back();
+        }
+
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Tenant $tenant)
-    {
-        //
+    * Remove the specified resource from storage.
+    */
+
+    public function destroy( string $id ) {
+        $tenant = Tenant::find($id);
+        if(!$tenant){
+            Session::flash( 'error', 'Tenant not found' );
+            return back();
+        }
+        if ($tenant->tenantProperties->isEmpty() && $tenant->payments->isEmpty()) {
+            try {
+                $tenant->delete();
+                Session::flash('success', 'Tenant deleted successfully');
+                return redirect()->route('tenants.index');
+            } catch (QueryException $exception) {
+                Session::flash('error', 'Failed to be deleted');
+                return back();
+            }
+            // Perform any additional actions or redirection as needed
+        } else {
+            Session::flash('error', 'Cant delete tenant has property and payment');
+            return back();
+        }
     }
 }

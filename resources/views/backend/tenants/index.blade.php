@@ -12,8 +12,8 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h4>Tenants</h4>
-                                <a href="" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
+                                <h4>Tenants <small>(wapangaji)</small></h4>
+                                <a href="{{ route('tenants.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
                                         class="px-1">Tenant</span></a>
                             </div>
                         </div>
@@ -33,13 +33,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        @foreach ($tenants as $key=>$tenant)
                                         <tr>
                                             <td>1</td>
-                                            <td>Edga John Zim</td>
-                                            <td>male</td>
-                                            <th>30 yrs</th>
-                                            <td>0785123098</td>
-                                            <td>mymail2390@gmail.com</td>
+                                            <td>{{ $tenant->fullname }}</td>
+                                            <td>{{ $tenant->sex }}</td>
+                                            <th>{{ $tenant->age }}</th>
+                                            <td>{{ $tenant->phone_number }}</td>
+                                            <td>{{ $tenant->email }}</td></td>
                                             <td>
                                                 @if ($activeFlag == 1)
                                                     <a href="" class="btn btn-outline-success">Active</a>
@@ -50,14 +51,14 @@
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <div>
-                                                        <a href="" type="button" class="btn btn-primary">
+                                                        <a href="{{ route('tenants.show',$tenant->id) }}" type="button" class="btn btn-primary">
                                                             <i class="bi bi-eye"></i></a>
                                                     </div>
                                                     <div>
-                                                        <a href="" type="button" class="btn btn-success mx-2">
+                                                        <a href="{{ route('tenants.edit',$tenant->id) }}" type="button" class="btn btn-success mx-2">
                                                             <i class="bi bi-pencil-square"></i></a>
                                                     </div>
-                                                    <form action="" method="POST">
+                                                    <form action="{{ route('tenants.destroy',$tenant->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger delete-confirmation"
@@ -67,12 +68,13 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer d-flex justify-content-center">
-                            {{-- {{ $users->links() }} --}} paginate
+                            {{ $tenants->links() }}
                         </div>
                     </div>
                 </div>

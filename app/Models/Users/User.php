@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Tenants\Tenant;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Properties\Property;
 use Illuminate\Notifications\Notifiable;
@@ -48,6 +49,11 @@ class User extends Authenticatable
     public function properties(): HasMany
     {
         return $this->hasMany(Property::class);
+    }
+
+    public function ternants(): HasMany
+    {
+        return $this->hasMany(Tenant::class);
     }
 
     public function getFullnameAttribute(){
