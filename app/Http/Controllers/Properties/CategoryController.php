@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Properties;
 
-use App\Http\Controllers\Controller;
-use App\Models\Categories\Category;
 use Illuminate\Http\Request;
+use App\Models\Categories\Category;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -22,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.categories.create');
     }
 
     /**
@@ -30,7 +32,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new Category();
+        $category->name = $request->name;
+        try {
+            $category->save();
+        Session::flash('success', 'Category successfully created');
+        return back();
+        } catch (QueryException $exception) {
+            Session::flash('error', 'Failed to create category');
+        return back();
+        }
     }
 
     /**
@@ -44,24 +55,45 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(string $id)
     {
-        //
+        $category = Category::find($id);
+        return view('backend.categories.edit',compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, string $id)
     {
-        //
+        $category = Category::find($id);
+        if (!$category) {
+            Session::flash('error', 'Category not found');
+            return back();
+        }
+        $category->name = $request->name;
+        $category->save();
+        Session::flash('success', 'Category successfully updated');
+        return redirect()->route('category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(string $id)
     {
-        //
+        $category = Category::find($id);
+        if (!$category) {
+            Session::flash('error', 'Category not found');
+            return back();
+        }
+        try {
+            $category->delete();
+            Session::flash('success', 'Category deleted successfully');
+            return redirect()->route('category.index');
+        } catch (QueryException $exception) {
+            Session::flash('error', 'Failed to be deleted');
+            return back();
+        }
     }
 }
