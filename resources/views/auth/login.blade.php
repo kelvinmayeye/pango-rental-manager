@@ -21,6 +21,11 @@
                                         <span style="color: #ff0400">{{ Session::get('error') }}</span>
                                     </div>
                                 @endif
+                                @if (Session::has('success'))
+                                    <div class="alert alert-danger" role="alert">
+                                        <span style="color: #00b212">{{ Session::get('success') }}</span>
+                                    </div>
+                                @endif
                                 <form action="{{ route('authentication') }}" method="POST">
                                     @csrf
                                     <div class="mb-3">

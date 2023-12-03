@@ -72,7 +72,7 @@ class AuthenticationController extends Controller
         try {
             $user->save();
             Session::flash( 'success', 'successfully Registerd' );
-            return back();
+            return redirect()->route('login');
         } catch ( QueryException $exception ) {
             Session::flash( 'error', 'Failed to store user try again' );
             return back();
