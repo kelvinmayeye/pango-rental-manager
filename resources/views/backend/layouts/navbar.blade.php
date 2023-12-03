@@ -9,7 +9,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <li class="dropdown mx-3"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+      <li class="dropdown mx-3"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i> {{ auth()->user()->fullname }}</a>
         <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <li><a class="dropdown-item" href="">Profile</a></li>
             <li><a href="{{ route('logout') }}" class="dropdown-item">Logout</a></li>

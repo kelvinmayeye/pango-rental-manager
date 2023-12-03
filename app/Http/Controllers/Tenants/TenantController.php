@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenants;
 
 use Illuminate\Http\Request;
 use App\Models\Tenants\Tenant;
+use App\Models\Properties\Property;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
@@ -39,6 +40,7 @@ class TenantController extends Controller {
         $tenant->birth_date = $request->birth_date;
         $tenant->email = $request->email;
         $tenant->phone_number = $request->phone_number;
+        $tenant->occupation = $request->occupation;
         $tenant->user_id = auth()->user()->id;
         try {
             $tenant->save();
@@ -60,7 +62,13 @@ class TenantController extends Controller {
             Session::flash( 'error', 'Tenant not found' );
             return back();
         }
-        return view('backend.tenants.show',compact('tenant'));
+        $properties = Property::where('user_id', auth()->user()->id)->where(function ($query) {
+        $query->whereHas('tenantProperties', function ($subQuery) {
+                $subQuery->where('is_active', 1); // taken property
+            })->orWhereDoesntHave('tenantProperties');
+        })->latest()->get();
+
+        return view('backend.tenants.show',compact('tenant','properties'));
     }
 
     /**
@@ -93,6 +101,7 @@ class TenantController extends Controller {
         $tenant->sex = $request->sex;
         $tenant->birth_date = $request->birth_date;
         $tenant->email = $request->email;
+        $tenant->occupation = $request->occupation;
         $tenant->phone_number = $request->phone_number;
         try {
             $tenant->save();

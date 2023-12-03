@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Tenants\TenantProperty;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 
 class TenantPropertyController extends Controller {
     /**
@@ -33,7 +35,17 @@ class TenantPropertyController extends Controller {
     */
 
     public function store( Request $request ) {
-        //
+        $tenantProperty = new TenantProperty();
+        $tenantProperty->tenant_id = $request->tenant_id;
+        $tenantProperty->property_id = $request->property_id;
+        try {
+            $tenantProperty->save();
+            Session::flash( 'success', 'Tenant property successfully added' );
+            return back();
+        } catch (QueryException $exception) {
+            Session::flash( 'error', 'Failed to add' );
+            return back();
+        }
     }
 
     /**

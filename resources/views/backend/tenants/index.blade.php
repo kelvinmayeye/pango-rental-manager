@@ -27,7 +27,7 @@
                                         <th>sex</th>
                                         <th>Age</th>
                                         <th>Phone number</th>
-                                        <th>Email</th>
+                                        <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -35,12 +35,12 @@
                                 <tbody>
                                         @foreach ($tenants as $key=>$tenant)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $key+1 }}</td>
                                             <td>{{ $tenant->fullname }}</td>
                                             <td>{{ $tenant->sex }}</td>
-                                            <th>{{ $tenant->age }}</th>
+                                            <th>{{ $tenant->age }} yrs</th>
                                             <td>{{ $tenant->phone_number }}</td>
-                                            <td>{{ $tenant->email }}</td></td>
+                                            <td>{{ $tenant->occupation }}</td></td>
                                             <td>
                                                 @if ($activeFlag == 1)
                                                     <a href="" class="btn btn-outline-success">Active</a>

@@ -29,17 +29,17 @@
                             @endif
                             </div>
                         </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="form-group">
-                                <label for="">Category</label>
-                                <select name="category_id" id="" class="form-control" required>
-                                    <option selected disabled> select category </option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                          <div class="col-md-6 mb-2">
+                              <div class="form-group">
+                                  <label for="">Category</label>
+                                  <select name="category_id" id="" class="form-control" required>
+                                      <option selected disabled> select category </option>
+                                      @foreach ($categories as $category)
+                                          <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                      @endforeach
+                                  </select>
+                              </div>
+                          </div>
                       </div>
                       <div class="row">
                         <div class="col-md-12 mb-12">

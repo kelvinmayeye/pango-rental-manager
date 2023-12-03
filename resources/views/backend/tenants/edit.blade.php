@@ -73,7 +73,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-6 mb-2">
+                        <div class="col-md-4 mb-2">
                             <div class="form-group">
                                 <label for="">Sex</label>
                                 <select name="sex" class="form-control">
@@ -83,13 +83,24 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-2">
+                        <div class="col-md-4 mb-2">
                             <div class="form-group">
                                 <label for="">Birth date</label>
                                 <input type="date" class="form-control" name="birth_date" value="{{ $tenant->birth_date }}" required>
                                 @if ($errors->has('birth_date'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('birth_date') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <div class="form-group">
+                                <label for="">Occupation</label>
+                                <input type="text" class="form-control" name="occupation" value="{{ $tenant->occupation }}" required>
+                                @if ($errors->has('occupation'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('occupation') }}</strong>
                                 </span>
                                 @endif
                             </div>
