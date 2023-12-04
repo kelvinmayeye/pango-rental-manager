@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenants;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Properties\Property;
 use App\Http\Controllers\Controller;
 use App\Models\Tenants\TenantProperty;
 use Illuminate\Database\QueryException;
@@ -18,11 +19,16 @@ class TenantPropertyController extends Controller {
         $tenantProperties = TenantProperty::join( 'properties', 'tenant_properties.property_id', '=', 'properties.id' )
         ->join( 'tenants', 'tenant_properties.tenant_id', '=', 'tenants.id' )
         ->where( 'properties.user_id', auth()->user()->id )
-        ->select( 'tenant_properties.*') // Select the fullname column
+        ->select( 'tenant_properties.*' ) // Select the fullname column
         ->get();
-
-        // return $tenantProperties;
-        return view( 'backend.tenantProperties.index', compact( 'tenantProperties' ) );
+        $properties = Property::where(function ($query) {
+            $query->doesntHave('tenantProperties')
+                ->orWhereHas('tenantProperties', function ($subQuery) {
+                    $subQuery->where('is_active', 0);
+                });
+        })
+        ->get();
+        return view( 'backend.tenantProperties.index', compact( 'tenantProperties','properties') );
     }
 
     /**
@@ -71,33 +77,59 @@ class TenantPropertyController extends Controller {
     * Update the specified resource in storage.
     */
 
-    public function update( Request $request, TenantProperty $tenantProperty ) {
-        //
+    public function update( Request $request, string $id) {
+        $tenantProperty = TenantProperty::find( $id );
+        if ( !$tenantProperty ) {
+            Session::flash( 'error', 'Tenant Property not found' );
+            return back();
+        }
+        
+        $tenantProperty->property_id = $request->property_id;
+        $tenantProperty->save();
+        Session::flash( 'success', 'Property changed successfully' );
+        return back();
     }
 
     /**
     * Remove the specified resource from storage.
     */
 
-    public function destroy( TenantProperty $tenantProperty ) {
-        //
-    }
-
-    public function activateTenantProperty($id){
-        $tenantProperty = TenantProperty::find($id);
-        if(!$tenantProperty){
-            Session::flash('error', 'Invalid tenant property');
+    public function destroy( string $id ) {
+        $tenantProperty = TenantProperty::find( $id );
+        if ( !$tenantProperty ) {
+            Session::flash( 'error', 'Tenant Property not found' );
             return back();
         }
-        if ($tenantProperty->is_active == 0) {
+        if ( $tenantProperty->leases->isEmpty() ) {
+            Session::flash( 'error', 'Cant delete tenant property has lease' );
+            return back();
+        } else {
+            try {
+                $tenantProperty->delete();
+                Session::flash( 'success', 'Tenant Property deleted successfully' );
+                return redirect()->route( 'tenantProperties.index' );
+            } catch ( QueryException $exception ) {
+                Session::flash( 'error', 'Failed to be deleted' );
+                return back();
+            }
+        }
+    }
+
+    public function activateTenantProperty( $id ) {
+        $tenantProperty = TenantProperty::find( $id );
+        if ( !$tenantProperty ) {
+            Session::flash( 'error', 'Invalid tenant property' );
+            return back();
+        }
+        if ( $tenantProperty->is_active == 0 ) {
             $tenantProperty->is_active = 1;
             $tenantProperty->save();
-            Session::flash('success', 'Tenant property status changed');
+            Session::flash( 'success', 'Tenant property status changed' );
             return back();
         } else {
             $tenantProperty->is_active = 0;
             $tenantProperty->save();
-            Session::flash('success', 'Tenant property status changed');
+            Session::flash( 'success', 'Tenant property status changed' );
             return back();
         }
 

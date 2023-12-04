@@ -73,57 +73,59 @@
                             </div>
                             <div class="button mt-2 d-flex flex-row align-items-center">
                                 <button class="btn btn-sm btn-outline-primary w-100">Add Payment</button>
-                                <button class="btn btn-sm btn-primary w-100 ml-2" data-toggle="modal" data-target="#addTenantPropertyModal">Add Property</button>
-
+                                <button class="btn btn-sm btn-primary w-100 ml-2" data-toggle="modal"
+                                    data-target="#addTenantPropertyModal">Add Property</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.card -->
             </div>
-            <div class="modal fade" id="addTenantPropertyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Tenant Property</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <form action="{{ route('tenantProperties.store') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                      <div class="row">
-                        <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
-                        <div class="col-md-12 mb-2">
-                          <div class="form-group">
-                              <label for="">Property</label>
-                              @if ($countProperties == 0)
-                              <h4 style="color: #b10a0a;">All properties are taken</h4>
-                                @else
-                                <select name="property_id" id="" class="form-control" required>
 
-                                  <option selected disabled> select propety </option>
-                                  @foreach ($properties as $property)
-                                      <option value="{{ $property->id }}">{{ $property->name }}</option>
-                                  @endforeach
-                              </select>
-                              @endif
-                          </div>
-                      </div>
-                      </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="addTenantPropertyModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Tenant Property</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('tenantProperties.store') }}" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
+                                    <div class="col-md-12 mb-2">
+                                        <div class="form-group">
+                                            <label for="">Property</label>
+                                            @if ($countProperties == 0)
+                                                <h4 style="color: #b10a0a;">All properties are taken</h4>
+                                            @else
+                                                <select name="property_id" id="" class="form-control" required>
+
+                                                    <option selected disabled> select propety </option>
+                                                    @foreach ($properties as $property)
+                                                        <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                  </form>
                 </div>
-              </div>
-        </div><!-- /.container-fluid -->
+            </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-
-    <!-- Modal -->
 
 @endsection

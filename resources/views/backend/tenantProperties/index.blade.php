@@ -55,10 +55,11 @@
                                                             <i class="bi bi-eye"></i></a>
                                                     </div>
                                                     <div>
-                                                        <a href="" type="button" class="btn btn-success mx-2">
+                                                        <a href="" type="button" class="btn btn-success mx-2" data-toggle="modal"
+                                                        data-target="#changePropertyModal{{ $tenantProperty->id }}">
                                                             <i class="bi bi-pencil-square"></i></a>
                                                     </div>
-                                                    <form action="" method="POST">
+                                                    <form action="{{ route('tenantProperties.destroy',$tenantProperty->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger delete-confirmation"
@@ -68,6 +69,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @include('models.changeProperty')
                                         @endforeach
                                 </tbody>
                             </table>
