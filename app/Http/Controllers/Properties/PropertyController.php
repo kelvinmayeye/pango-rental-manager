@@ -105,13 +105,20 @@ class PropertyController extends Controller {
             Session::flash('error', 'Property not found');
             return back();
         }
-        try {
-            $property->delete();
-            Session::flash('success', 'Property deleted successfully');
-            return redirect()->route('properties.index');
-        } catch (QueryException $exception) {
-            Session::flash('error', 'Failed to be deleted');
+        
+        if ($property->tenantProperties->isEmpty()) {
+            try {
+                $property->delete();
+                Session::flash('success', 'Property deleted successfully');
+                return redirect()->route('properties.index');
+            } catch (QueryException $exception) {
+                Session::flash('error', 'Failed to be deleted');
+                return back();
+            }
+        }else{
+            Session::flash('error', 'Failed to be deleted property is rented to tenant');
             return back();
         }
+        
     }
 }
