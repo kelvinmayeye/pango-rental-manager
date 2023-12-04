@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    @php
-        $activeFlag = 0;
-    @endphp
     <!-- Main content -->
     <section class="content pt-5">
         <div class="container-fluid">
@@ -28,7 +25,6 @@
                                         <th>Age</th>
                                         <th>Phone number</th>
                                         <th>Occupation</th>
-                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -41,13 +37,6 @@
                                             <th>{{ $tenant->age }} yrs</th>
                                             <td>{{ $tenant->phone_number }}</td>
                                             <td>{{ $tenant->occupation }}</td></td>
-                                            <td>
-                                                @if ($activeFlag == 1)
-                                                    <a href="" class="btn btn-outline-success">Active</a>
-                                                @else
-                                                    <a href="" class="btn btn-outline-danger">Inactive</a>
-                                                @endif
-                                            </td>
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <div>
