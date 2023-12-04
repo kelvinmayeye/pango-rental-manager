@@ -21,6 +21,7 @@ class TenantPropertyFactory extends Factory
         return [
             'property_id'=>Property::all()->random()->id,
             'tenant_id'=>Tenant::all()->random()->id,
+            'is_active'=> $this->faker->randomElement([1]),
         ];
     }
 }

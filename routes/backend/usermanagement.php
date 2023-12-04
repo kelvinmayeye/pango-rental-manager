@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Tenants\TenantPropertyController;
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('authenticates', 'authenticate')->name('authentication');
@@ -12,8 +13,10 @@ Route::controller(AuthenticationController::class)->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-Route::get('dashboard', function () {
-    return view('index');
-})->name('dashboard');
+    Route::get('dashboard', function () {
+        return view('index');
+    })->name('dashboard');
+
+    Route::get('tenantProperties/{id}/status',[TenantPropertyController::class, 'activateTenantProperty'])->name('tenantProperties.status');
 
 });

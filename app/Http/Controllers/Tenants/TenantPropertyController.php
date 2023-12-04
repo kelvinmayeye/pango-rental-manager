@@ -15,11 +15,14 @@ class TenantPropertyController extends Controller {
     */
 
     public function index() {
-        $tenantProperties = DB::table( 'tenant_properties' )
-        ->join( 'properties', 'tenant_properties.property_id', '=', 'properties.id' )
+        $tenantProperties = TenantProperty::join( 'properties', 'tenant_properties.property_id', '=', 'properties.id' )
+        ->join( 'tenants', 'tenant_properties.tenant_id', '=', 'tenants.id' )
         ->where( 'properties.user_id', auth()->user()->id )
-        ->paginate(10);
-        return view('backend.tenantProperties.index',compact('tenantProperties'));
+        ->select( 'tenant_properties.*') // Select the fullname column
+        ->get();
+
+        // return $tenantProperties;
+        return view( 'backend.tenantProperties.index', compact( 'tenantProperties' ) );
     }
 
     /**
@@ -42,7 +45,7 @@ class TenantPropertyController extends Controller {
             $tenantProperty->save();
             Session::flash( 'success', 'Tenant property successfully added' );
             return back();
-        } catch (QueryException $exception) {
+        } catch ( QueryException $exception ) {
             Session::flash( 'error', 'Failed to add' );
             return back();
         }
@@ -78,5 +81,25 @@ class TenantPropertyController extends Controller {
 
     public function destroy( TenantProperty $tenantProperty ) {
         //
+    }
+
+    public function activateTenantProperty($id){
+        $tenantProperty = TenantProperty::find($id);
+        if(!$tenantProperty){
+            Session::flash('error', 'Invalid tenant property');
+            return back();
+        }
+        if ($tenantProperty->is_active == 0) {
+            $tenantProperty->is_active = 1;
+            $tenantProperty->save();
+            Session::flash('success', 'Tenant property status changed');
+            return back();
+        } else {
+            $tenantProperty->is_active = 0;
+            $tenantProperty->save();
+            Session::flash('success', 'Tenant property status changed');
+            return back();
+        }
+
     }
 }

@@ -15,7 +15,7 @@ class TenantController extends Controller {
     */
 
     public function index() {
-        $tenants = Tenant::latest()->paginate( 10 );
+        $tenants = Tenant::where('user_id',auth()->user()->id)->latest()->paginate( 10 );
         return view( 'backend.tenants.index', compact( 'tenants' ) );
     }
 

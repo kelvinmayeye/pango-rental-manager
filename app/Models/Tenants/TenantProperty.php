@@ -20,7 +20,7 @@ class TenantProperty extends Model
         return $this->belongsTo(Property::class);
     }
 
-    public function tenants():BelongsTo
+    public function tenant():BelongsTo
     {
         return $this->belongsTo(Tenant::class);
     }

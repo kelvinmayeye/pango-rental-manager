@@ -2,7 +2,7 @@
 
 @section('content')
     @php
-        $activeFlag = 0;
+        $activeFlag = 1;
     @endphp
     <!-- Main content -->
     <section class="content pt-5">
@@ -13,8 +13,8 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4>Tenants Propeties</h4>
-                                <a href="" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
-                                        class="px-1">Tenant Propety</span></a>
+                                {{-- <a href="" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
+                                        class="px-1">Tenant Propety</span></a> --}}
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -27,24 +27,25 @@
                                         <th>sex</th>
                                         <th>Age</th>
                                         <th>Phone number</th>
-                                        <th>Email</th>
+                                        <th>Property</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        @foreach ($tenantProperties as $key=> $tenantProperty )
                                         <tr>
-                                            <td>1</td>
-                                            <td>Edga John Zim</td>
-                                            <td>male</td>
-                                            <th>30 yrs</th>
-                                            <td>0785123098</td>
-                                            <td>mymail2390@gmail.com</td>
+                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $tenantProperty->tenant->fullname }}</td>
+                                            <td>{{ $tenantProperty->tenant->sex}}</td>
+                                            <th>{{ $tenantProperty->tenant->age }}</th>
+                                            <td>{{ $tenantProperty->tenant->phone_number }}</td>
+                                            <td>{{ $tenantProperty->property->name }}</td>
                                             <td>
-                                                @if ($activeFlag == 1)
-                                                    <a href="" class="btn btn-outline-success">Active</a>
+                                                @if ($tenantProperty->is_active == 1)
+                                                    <a href="{{ route('tenantProperties.status', $tenantProperty->id) }}" class="btn btn-outline-success">Active</a>
                                                 @else
-                                                    <a href="" class="btn btn-outline-danger">Inactive</a>
+                                                    <a href="{{ route('tenantProperties.status', $tenantProperty->id) }}" class="btn btn-outline-danger">Inactive</a>
                                                 @endif
                                             </td>
                                             <td>
@@ -67,12 +68,13 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer d-flex justify-content-center">
-                            {{ $tenantProperties->links() }} 
+                            {{-- {{ $tenantProperties->links() }}  --}}
                         </div>
                     </div>
                 </div>
