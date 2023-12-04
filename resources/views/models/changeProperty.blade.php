@@ -18,7 +18,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="col-md-12 mb-2">
                         <div class="form-group">
                             <label for="">Property</label>
-                            @if ($properties == null)
+                            @if ($countproperties == 0)
                                 <h4 style="color: #b10a0a;">All properties are taken</h4>
                             @else
                                 <select name="property_id" id="" class="form-control" required>

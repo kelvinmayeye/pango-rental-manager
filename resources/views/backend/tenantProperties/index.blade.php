@@ -2,7 +2,7 @@
 
 @section('content')
     @php
-        $activeFlag = 1;
+        $countproperties = $properties->count();
     @endphp
     <!-- Main content -->
     <section class="content pt-5">

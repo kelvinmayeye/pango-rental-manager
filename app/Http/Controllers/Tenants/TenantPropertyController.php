@@ -21,7 +21,7 @@ class TenantPropertyController extends Controller {
         ->where( 'properties.user_id', auth()->user()->id )
         ->select( 'tenant_properties.*' ) // Select the fullname column
         ->get();
-        $properties = Property::where(function ($query) {
+        $properties = Property::where('user_id',auth()->user()->id)->where(function ($query) {
             $query->doesntHave('tenantProperties')
                 ->orWhereHas('tenantProperties', function ($subQuery) {
                     $subQuery->where('is_active', 0);
@@ -47,6 +47,7 @@ class TenantPropertyController extends Controller {
         $tenantProperty = new TenantProperty();
         $tenantProperty->tenant_id = $request->tenant_id;
         $tenantProperty->property_id = $request->property_id;
+        $tenantProperty->is_active = 1;
         try {
             $tenantProperty->save();
             Session::flash( 'success', 'Tenant property successfully added' );
