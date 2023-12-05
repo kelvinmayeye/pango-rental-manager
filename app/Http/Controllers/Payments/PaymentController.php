@@ -17,7 +17,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::latest()->paginate(10);
+        $userID = auth()->user()->id;
+
+        $payments = Payment::whereHas('lease.tenantProperty.property', function ($query) use ($userID) {
+            $query->where('user_id', $userID);
+        })->latest()->paginate(10);
 
         return view('backend.payments.index',compact('payments'));
     }
