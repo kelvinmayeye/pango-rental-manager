@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    @php
-        $activeFlag = 0;
-    @endphp
     <!-- Main content -->
     <section class="content pt-5">
         <div class="container-fluid">

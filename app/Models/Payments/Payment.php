@@ -6,6 +6,7 @@ use App\Models\Leases\Lease;
 use App\Models\Tenants\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Payment extends Model
@@ -17,7 +18,7 @@ class Payment extends Model
         return $this->belongsTo(Tenant::class);
     }
 
-    public function lease():BelongTo
+    public function lease(): BelongsTo
     {
         return $this->belongsTo(Lease::class);
     }

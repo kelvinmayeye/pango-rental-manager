@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Payments;
 
 
-use App\Http\Controllers\Controller;
-use App\Models\Payments\Payment;
+use Exception;
+use App\Models\Leases\Lease;
 use Illuminate\Http\Request;
+use App\Models\Payments\Payment;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
 {
@@ -24,7 +27,14 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        $userID = auth()->user()->id;
+
+        $leases = Lease::whereHas('tenantProperty.property', function ($query) use ($userID) {
+            $query->where('user_id', $userID);
+        })->where(function ($query) {
+            $query->whereIn('status_id', [1, 3]);
+        })->get();
+        return view('backend.payments.create',compact('leases'));
     }
 
     /**
@@ -32,7 +42,24 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lease = Lease::find($request->lease_id);
+        if ( !$lease ) {
+            Session::flash( 'error', 'Lease not found' );
+            return back();
+        }
+        $payment = new Payment();
+        $payment->lease_id = $request->lease_id;
+        $payment->amount = $request->amount;
+        $payment->tenant_id = $lease->tenantProperty->tenant->id;
+        
+        try {
+            $payment->save();
+            Session::flash( 'success', 'Payment successfully added' );
+            return back();
+        } catch (Exception $ex) {
+            Session::flash( 'error', 'Failed to add payment' );
+            return back();
+        }
     }
 
     /**
@@ -65,5 +92,12 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    public function getLeaseAmount(string $id){
+        $lease = Lease::find($id);
+        if ($lease) {
+            return response()->json(['amount' => $lease->monthly_rate]);
+        }
     }
 }

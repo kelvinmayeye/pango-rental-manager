@@ -19,7 +19,7 @@ class Lease extends Model
         return $this->belongsTo(TenantProperty::class);
     }
 
-    public function payments():HasMany
+    public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
     }

@@ -13,7 +13,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4>Payments</h4>
-                                <a href="" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
+                                <a href="{{ route('payments.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
                                         class="px-1">Payment</span></a>
                             </div>
                         </div>
@@ -23,30 +23,19 @@
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Fullname</th>
-                                        <th>sex</th>
-                                        <th>Age</th>
-                                        <th>Phone number</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
+                                        <th>Tenant Name</th>
+                                        <th>Property</th>
+                                        <th>Amount paid</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                        @foreach ($payments as $key=>$payment)
                                         <tr>
-                                            <td>1</td>
-                                            <td>Edga John Zim</td>
-                                            <td>male</td>
-                                            <th>30 yrs</th>
-                                            <td>0785123098</td>
-                                            <td>mymail2390@gmail.com</td>
-                                            <td>
-                                                @if ($activeFlag == 1)
-                                                    <a href="" class="btn btn-outline-success">Active</a>
-                                                @else
-                                                    <a href="" class="btn btn-outline-danger">Inactive</a>
-                                                @endif
-                                            </td>
+                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $payment->tenant->fullname }}</td>
+                                            <td>{{ $payment->lease->tenantProperty->property->name }}</td>
+                                            <th>{{ number_format($payment->amount) }}</th>   
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <div>
@@ -67,6 +56,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>
