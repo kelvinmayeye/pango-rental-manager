@@ -83,6 +83,7 @@
                                         <th>Monthly rate</th>
                                         <th>Amount paid</th>
                                         <th>Balance</th>
+                                        <th>Days Remaining</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -93,8 +94,9 @@
                                             <td>{{ $lease->tenantProperty->tenant->fullname }}</td>
                                             <td>{{ $lease->tenantProperty->property->name }}</td>
                                             <th>{{ number_format($lease->monthly_rate) }} Tsh</th>
-                                            <th></th>
-                                            <td>
+                                            <th>{{ number_format(calculateTotalLeasePaid($lease->id)) }}</th>
+                                            <td>{{ number_format(leaseBalance($lease->id)) }}</td>
+                                            <td>{{ daysRemaining($lease->id) }} day</td>
                                               <td>
                                                 @if ($lease->status_id == 1)
                                                     <a href="" class="btn btn-outline-danger btn-sm">Not paid</a>
@@ -103,7 +105,6 @@
                                                 @else
                                                     <a href="" class="btn btn-outline-secondary btn-sm">Expire</a>
                                                 @endif
-                                            </td>
                                             </td>
                                         </tr>
                                         @endforeach

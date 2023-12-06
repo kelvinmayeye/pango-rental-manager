@@ -44,6 +44,16 @@ class TenantPropertyController extends Controller {
     */
 
     public function store( Request $request ) {
+
+        // check if tenant has same property and is active
+        if (TenantProperty::where('tenant_id', $request->tenant_id)
+            ->where('property_id', $request->property_id)
+            ->where('is_active', 1)
+            ->exists()) {
+            Session::flash('error', 'Tenant owns this property all ready');
+            return back();
+        }
+        
         $tenantProperty = new TenantProperty();
         $tenantProperty->tenant_id = $request->tenant_id;
         $tenantProperty->property_id = $request->property_id;

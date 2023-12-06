@@ -64,7 +64,7 @@ class TenantController extends Controller {
         }
         $properties = Property::where('user_id', auth()->user()->id)->where(function ($query) {
         $query->whereHas('tenantProperties', function ($subQuery) {
-                $subQuery->where('is_active', 1); // left property tenant (whats owed)
+                $subQuery->where('is_active', 0); // left property tenant (whats owed)
             })->orWhereDoesntHave('tenantProperties');
         })->latest()->get();
 

@@ -38,6 +38,7 @@
                                             <td>{{ $tenant->phone_number }}</td>
                                             <td>{{ $tenant->occupation }}</td></td>
                                             <td>
+                                                
                                                 <div class="btn-group" role="group">
                                                     <div>
                                                         <a href="{{ route('tenants.show',$tenant->id) }}" type="button" class="btn btn-primary">

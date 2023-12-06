@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
             $query->where('user_id', $userID);
         })->where(function ($query) {
             $query->whereIn('status_id', [1,2,3]);
-        })->paginate(10);
+        })->latest()->paginate(10);
         return view('index',compact('leases'));
     })->name('dashboard');
 
