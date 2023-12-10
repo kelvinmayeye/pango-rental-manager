@@ -10,8 +10,8 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4>Leases</h4>
-                                <a href="{{ route('leases.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i></i><span
-                                        class="px-1">Lease</span></a>
+                                <a href="{{ route('leases.create') }}" class="btn btn-primary"><i
+                                        class="bi bi-plus-lg"></i></i><span class="px-1">Lease</span></a>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -36,14 +36,16 @@
                                             <td>{{ $lease->tenantProperty->tenant->fullname }}</td>
                                             <td>{{ $lease->start_date }}</td>
                                             <td>{{ $lease->end_date }}</td>
-                                            <td>{{ number_format($lease->monthly_rate) }} Tsh</td>
-                                            <td>
+                                            <td>{{ number_format($lease->monthly_rate) }} Tsh {{ $lease->status_id }}</td>
+                                            <td align="center">
                                                 @if ($lease->status_id == 1)
                                                     <a href="" class="btn btn-outline-danger">Not paid</a>
                                                 @elseif ($lease->status_id == 2)
                                                     <a href="" class="btn btn-outline-success">Paid</a>
+                                                @elseif ($lease->status_id == 3)
+                                                    <a href="" class="btn btn-outline-success">Expire</a>
                                                 @else
-                                                    <a href="" class="btn btn-outline-secondary">Expire</a>
+                                                    <a href="" class="btn btn-outline-secondary">Incomplete</a>
                                                 @endif
                                             </td>
                                             <td>
@@ -56,7 +58,7 @@
                                                         <a href="" type="button" class="btn btn-success mx-2">
                                                             <i class="bi bi-pencil-square"></i></a>
                                                     </div>
-                                                    <form action="{{ route('leases.destroy',$lease->id) }}" method="POST">
+                                                    <form action="{{ route('leases.destroy', $lease->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger delete-confirmation"

@@ -46,7 +46,7 @@
                                                         <a href="" type="button" class="btn btn-success mx-2">
                                                             <i class="bi bi-pencil-square"></i></a>
                                                     </div>
-                                                    <form action="" method="POST">
+                                                    <form action="{{ route('payments.destroy',$payment->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger delete-confirmation"

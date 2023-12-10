@@ -2,6 +2,7 @@
 
 use App\Models\Leases\Lease;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Tenants\TenantPropertyController;
 
@@ -20,13 +21,13 @@ Route::middleware('auth')->group(function () {
         $leases = Lease::whereHas('tenantProperty.property', function ($query) use ($userID) {
             $query->where('user_id', $userID);
         })->where(function ($query) {
-            $query->whereIn('status_id', [1,2,3]);
+            $query->whereIn('status_id', [1,2,3,4]);
         })->latest()->paginate(10);
         return view('index',compact('leases'));
     })->name('dashboard');
 
     Route::get('tenantProperties/{id}/status',[TenantPropertyController::class, 'activateTenantProperty'])->name('tenantProperties.status');
 
-    Route::get('lease/{id}/amount',[PaymentController::class, 'getLeaseAmount'])->name('lease.amount');
+    Route::get('lease/{id}',[PaymentController::class, 'getLeaseAmount'])->name('lease');
 
 });

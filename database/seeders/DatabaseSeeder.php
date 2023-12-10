@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'not paid'],
             ['name' => 'paid'],
             ['name' => 'expired'],
+            ['name' => 'incomplete'],
         ];
         DB::table('statuses')->insert($statuses);
         Lease::factory(20)->create();

@@ -58,8 +58,18 @@ class PaymentController extends Controller
         
         try {
             $payment->save();
-            Session::flash( 'success', 'Payment successfully added' );
-            return back();
+            $leaseStatus = getLeaseStatus($lease->id,$request->amount);
+            if($leaseStatus == 0 || $leaseStatus == 2){
+                $lease->status_id = 2;
+                $lease->save();
+                Session::flash( 'success', 'Payment successfully added and Lease is fully paid' );
+                return back();
+            }elseif($leaseStatus == 1){
+                $lease->status_id = 4;
+                $lease->save();
+                Session::flash( 'success', 'Payment successfully added and Lease partially paid' );
+                return back();
+            }
         } catch (Exception $ex) {
             Session::flash( 'error', 'Failed to add payment' );
             return back();
@@ -101,7 +111,9 @@ class PaymentController extends Controller
     public function getLeaseAmount(string $id){
         $lease = Lease::find($id);
         if ($lease) {
-            return response()->json(['amount' => $lease->monthly_rate]);
+            return response()->json(['amount' => number_format($lease->monthly_rate)]);
+        }else{
+            return response()->json(['amount' => "No amount"]);
         }
     }
 }
