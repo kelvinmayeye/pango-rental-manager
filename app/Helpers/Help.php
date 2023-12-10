@@ -25,16 +25,19 @@ function leaseBalance( $id ) {
     return $balance;
 }
 
-function daysRemaining( $id ) {
-    $lease = Lease::find( $id );
+function daysRemaining($id) {
+    $lease = Lease::find($id);
 
-    if ( !$lease ) {
-
-        return Carbon::now();
+    if (!$lease) {
+        return 0;
     }
 
-    $endDate = Carbon::parse( $lease->end_date );
-    $remainingDays = $endDate->diffInDays( Carbon::now() );
+    $endDate = Carbon::parse($lease->end_date);
+    if ($endDate->isPast()) {
+        return 0;
+    }
+
+    $remainingDays = $endDate->diffInDays(Carbon::now());
 
     return $remainingDays;
 }

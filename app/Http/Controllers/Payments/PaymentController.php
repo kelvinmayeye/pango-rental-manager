@@ -61,7 +61,7 @@ class PaymentController extends Controller
         try {
             $payment->save();
             $leaseStatus = getLeaseStatus($lease->id);
-            if($leaseStatus = 2){
+            if($leaseStatus == 2){
                 $lease->status_id = 2;
                 $lease->save();
                 Session::flash( 'success', 'Payment successfully added and Lease is fully paid' );
