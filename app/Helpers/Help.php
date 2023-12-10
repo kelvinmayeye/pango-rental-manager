@@ -39,14 +39,11 @@ function daysRemaining( $id ) {
     return $remainingDays;
 }
 
-function getLeaseStatus( $LeaseId, $payment ) {
-    $amount = calculateTotalLeasePaid( $LeaseId );
-    $result = $amount - $payment;
-    if ( $result == 0 ) {
-        return $result;
-    } elseif ( $result < $amount ) { // partial paid
-        return 1;
+function getLeaseStatus( $LeaseId ) {
+    $leaseBalance = leaseBalance( $LeaseId );
+    if ( $leaseBalance <= 0 ) {
+        return 2;
     }else{
-        return 2; // overpaid
+        return 4; 
     }
 }

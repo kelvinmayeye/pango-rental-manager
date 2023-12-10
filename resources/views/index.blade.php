@@ -100,7 +100,7 @@
                                             <th>{{ number_format($lease->monthly_rate) }} Tsh</th>
                                             <th>{{ number_format(calculateTotalLeasePaid($lease->id)) }}</th>
                                             <td>{{ number_format(leaseBalance($lease->id)) }}</td>
-                                            <td>{{ daysRemaining($lease->id) }} day {{ $lease->status_id }}</td>
+                                            <td>{{ daysRemaining($lease->id) }} {{ Str::plural('day', daysRemaining($lease->id)) }}</td>
                                             <td>
                                                 @if ($lease->status_id == 1)
                                                     <a href="" class="btn btn-outline-danger btn-sm">Not paid</a>

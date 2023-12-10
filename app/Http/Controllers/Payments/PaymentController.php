@@ -55,16 +55,18 @@ class PaymentController extends Controller
         $payment->lease_id = $request->lease_id;
         $payment->amount = $request->amount;
         $payment->tenant_id = $lease->tenantProperty->tenant->id;
+
+        
         
         try {
             $payment->save();
-            $leaseStatus = getLeaseStatus($lease->id,$request->amount);
-            if($leaseStatus == 0 || $leaseStatus == 2){
+            $leaseStatus = getLeaseStatus($lease->id);
+            if($leaseStatus = 2){
                 $lease->status_id = 2;
                 $lease->save();
                 Session::flash( 'success', 'Payment successfully added and Lease is fully paid' );
                 return back();
-            }elseif($leaseStatus == 1){
+            }else{
                 $lease->status_id = 4;
                 $lease->save();
                 Session::flash( 'success', 'Payment successfully added and Lease partially paid' );

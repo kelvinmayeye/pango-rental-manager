@@ -36,7 +36,7 @@
                                             <td>{{ $lease->tenantProperty->tenant->fullname }}</td>
                                             <td>{{ $lease->start_date }}</td>
                                             <td>{{ $lease->end_date }}</td>
-                                            <td>{{ number_format($lease->monthly_rate) }} Tsh {{ $lease->status_id }}</td>
+                                            <td>{{ number_format($lease->monthly_rate) }}</td>
                                             <td align="center">
                                                 @if ($lease->status_id == 1)
                                                     <a href="" class="btn btn-outline-danger">Not paid</a>
