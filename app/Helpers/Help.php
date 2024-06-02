@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\Tenants\TenantProperty;
 use Carbon\Carbon;
 use App\Models\Leases\Lease;
 use App\Models\Payments\Payment;
@@ -47,6 +49,26 @@ function getLeaseStatus( $LeaseId ) {
     if ( $leaseBalance <= 0 ) {
         return 2;
     }else{
-        return 4; 
+        return 4;
+    }
+}
+
+function tenantLeasesCount($id){
+    return Lease::whereHas('tenantProperty', function ($query) use ($id) {
+        $query->where('tenant_id', $id);
+    })->count();
+}
+
+function tenantPropertyCount($id){
+    $tenantProperty = TenantProperty::where('tenant_id',$id)->where('is_active',1)->get()->count();
+    return $tenantProperty;
+}
+
+function tenantLastPayment($id){
+    $payment = Payment::where('tenant_id', $id)->latest()->first('amount');
+    if ($payment) {
+        return $payment->amount;
+    } else {
+        return 'No Payment';
     }
 }

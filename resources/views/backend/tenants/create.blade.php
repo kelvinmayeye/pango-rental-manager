@@ -20,7 +20,7 @@
                       <div class="row">
                         <div class="col-md-4 mb-2">
                             <div class="form-group">
-                                <label>Firstname</label>
+                                <label>Firstname<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required>
                                 @if ($errors->has('first_name'))
                                 <span class="help-block">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="form-group">
-                                <label for="">Lastname</label>
+                                <label for="">Lastname<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required>
                                 @if ($errors->has('last_name'))
                                 <span class="help-block">
@@ -55,7 +55,7 @@
                       <div class="row">
                         <div class="col-md-6 mb-2">
                             <div class="form-group">
-                                <label for="">Email</label>
+                                <label for="">Email<span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                                 @if ($errors->has('email'))
                                 <span class="help-block">
@@ -66,11 +66,11 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <div class="form-group">
-                                <label for="">Phone number</label>
-                                <input type="text" class="form-control" name="phone_number" value="{{ old('phone_number') }}" required>
+                                <label for="">Phone number<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="phone_number" title="number should start with 255" placeholder="eg.255783123098" pattern="^255[1-9]\d*$" minlength="12" maxlength="12" value="{{ old('phone_number') }}" required>
                                 @if ($errors->has('phone_number'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('phone_number') }}</strong>
+                                    <i class="text-danger fs-4">{{ $errors->first('phone_number') }}</i>
                                 </span>
                                 @endif
                             </div>
@@ -79,9 +79,9 @@
                       <div class="row">
                         <div class="col-md-4 mb-2">
                             <div class="form-group">
-                                <label for="">Sex</label>
-                                <select name="sex" class="form-control">
-                                    <option selected disabled> Choose sex</option>
+                                <label for="">Sex<span class="text-danger">*</span></label>
+                                <select name="sex" class="form-control" required>
+                                    <option selected disabled value="">-- Choose sex --</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
@@ -90,7 +90,7 @@
                         <div class="col-md-4 mb-2">
                             <div class="form-group">
                                 <label for="">Birth date</label>
-                                <input type="date" class="form-control" name="birth_date" value="{{ old('birth_date') }}" required>
+                                <input type="date" class="form-control" name="birth_date" value="{{ old('birth_date') }}" max="{{ now()->subYears(18)->format('Y-m-d') }}">
                                 @if ($errors->has('birth_date'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('birth_date') }}</strong>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="form-group">
-                                <label for="">Occupation</label>
+                                <label for="">Occupation<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="occupation" value="{{ old('occupation') }}" required>
                                 @if ($errors->has('occupation'))
                                 <span class="help-block">
@@ -118,7 +118,7 @@
                     </div>
                   </form>
                 </div>
-                <!-- /.card -->    
+                <!-- /.card -->
               </div>
         </div><!-- /.container-fluid -->
     </section>

@@ -109,12 +109,12 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer d-flex">
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-primary">save</button>
                       <a class="btn btn-danger mx-3" href="{{ route('tenants.index') }}">Back</a>
                     </div>
                   </form>
                 </div>
-                <!-- /.card -->    
+                <!-- /.card -->
               </div>
         </div><!-- /.container-fluid -->
     </section>

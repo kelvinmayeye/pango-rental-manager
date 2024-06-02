@@ -10,12 +10,9 @@ use Illuminate\Support\Facades\Session;
 
 class LeaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        
         $leases = Lease::whereHas('tenantProperty.property.user', function ($query) {
             $query->where('id', auth()->user()->id);
         })->paginate(10);
@@ -23,9 +20,6 @@ class LeaseController extends Controller
         return view('backend.leases.index',compact('leases'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $userID = auth()->user()->id;
@@ -41,11 +35,9 @@ class LeaseController extends Controller
         return view('backend.leases.create',compact('tenantProperties'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        //Todo: implement try and catch and statuses check
         $lease = new Lease();
         $lease->start_date = $request->start_date;
         $lease->end_date = $request->end_date;
@@ -54,36 +46,9 @@ class LeaseController extends Controller
         $lease->status_id = 1;
         $lease->save();
         Session::flash( 'success', 'Lease successfully created' );
-        return back();
+        return redirect()->route('leases.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Lease $lease)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Lease $lease)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Lease $lease)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $lease = Lease::find( $id );

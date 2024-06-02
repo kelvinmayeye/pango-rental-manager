@@ -18,14 +18,14 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-sm table-hover">
                                 <thead>
                                     <tr>
                                         <th>SN</th>
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th>Category</th>
-                                        <th>Action</th>
+                                        <th class="text-center" style="width: 40px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -35,20 +35,16 @@
                                             <td>{{ $property->name }}</td>
                                             <td>{{ $property->description }}</td>
                                             <td>{{ $property->category->name }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 <div class="btn-group" role="group">
                                                     <div>
-                                                        <a href="{{ route('properties.show',$property->id) }}" type="button" class="btn btn-primary">
-                                                            <i class="bi bi-eye"></i></a>
-                                                    </div>
-                                                    <div>
-                                                        <a href="{{ route('properties.edit',$property->id) }}" type="button" class="btn btn-success mx-2">
+                                                        <a href="{{ route('properties.edit',$property->id) }}" type="button" class="btn btn-success btn-sm mx-2">
                                                             <i class="bi bi-pencil-square"></i></a>
                                                     </div>
                                                     <form action="{{ route('properties.destroy',$property->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger delete-confirmation"
+                                                        <button type="submit" class="btn btn-danger btn-sm delete-confirmation"
                                                             data-toggle="tooltip" title='Delete'>
                                                             <i class="bi bi-trash"></i></button>
                                                     </form>

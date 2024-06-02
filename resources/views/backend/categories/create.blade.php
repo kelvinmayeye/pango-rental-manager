@@ -6,7 +6,7 @@
     <!-- Main content -->
     <section class="content pt-5">
         <div class="container-fluid">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-6 offset-md-2">
                 <!-- general form elements -->
                 <div class="card">
                   <div class="card-header">
@@ -33,12 +33,12 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer d-flex">
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-primary">Save</button>
                       <a class="btn btn-danger mx-3" href="{{ route('category.index') }}">Back</a>
                     </div>
                   </form>
                 </div>
-                <!-- /.card -->    
+                <!-- /.card -->
               </div>
         </div><!-- /.container-fluid -->
     </section>

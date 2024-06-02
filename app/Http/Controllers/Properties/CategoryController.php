@@ -10,26 +10,17 @@ use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $categories = Category::latest()->paginate();
         return view('backend.categories.index',compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('backend.categories.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $category = new Category();
@@ -37,33 +28,24 @@ class CategoryController extends Controller
         try {
             $category->save();
         Session::flash('success', 'Category successfully created');
-        return back();
+        return redirect()->route('category.index');
         } catch (QueryException $exception) {
             Session::flash('error', 'Failed to create category');
         return back();
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Category $category)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $category = Category::find($id);
         return view('backend.categories.edit',compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $category = Category::find($id);
@@ -77,9 +59,6 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $category = Category::find($id);

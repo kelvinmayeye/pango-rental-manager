@@ -7,7 +7,7 @@
     <section class="content pt-5">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-8 mx-auto">
+                <div class="col-md-6 mx-auto">
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex justify-content-between align-items-center">
@@ -29,18 +29,14 @@
                                 <tbody>
                                     @foreach ($categories as $key=>$category)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
+                                        <td style="width: 18px;">{{ $key+1 }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td>
+                                        <td style="width: 22px;" class="text-center">
                                             <div class="btn-group" role="group">
-                                                <div>
-                                                    <a href="{{ route('category.edit', $category->id) }}" type="button" class="btn btn-success mx-2">
-                                                        <i class="bi bi-pencil-square"></i></a>
-                                                </div>
                                                 <form action="{{ route('category.destroy', $category->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger delete-confirmation"
+                                                    <button type="submit" class="btn btn-danger btn-sm delete-confirmation"
                                                         data-toggle="tooltip" title='Delete'>
                                                         <i class="bi bi-trash"></i></button>
                                                 </form>

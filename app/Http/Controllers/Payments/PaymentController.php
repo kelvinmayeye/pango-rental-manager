@@ -26,9 +26,6 @@ class PaymentController extends Controller
         return view('backend.payments.index',compact('payments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $userID = auth()->user()->id;
@@ -41,9 +38,7 @@ class PaymentController extends Controller
         return view('backend.payments.create',compact('leases'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $lease = Lease::find($request->lease_id);
@@ -55,9 +50,7 @@ class PaymentController extends Controller
         $payment->lease_id = $request->lease_id;
         $payment->amount = $request->amount;
         $payment->tenant_id = $lease->tenantProperty->tenant->id;
-
-        
-        
+//        return $payment;
         try {
             $payment->save();
             $leaseStatus = getLeaseStatus($lease->id);
@@ -70,7 +63,7 @@ class PaymentController extends Controller
                 $lease->status_id = 4;
                 $lease->save();
                 Session::flash( 'success', 'Payment successfully added and Lease partially paid' );
-                return back();
+                return redirect()->route('payments.index');
             }
         } catch (Exception $ex) {
             Session::flash( 'error', 'Failed to add payment' );

@@ -31,7 +31,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">email</label>
                                         <input class="form-control form-control-lg" type="email" name="email"
-                                            placeholder="email" />
+                                            placeholder="email" autofocus/>
                                         @if ($errors->has('email'))
                                             <span class="text-danger">{{ $errors->first('email') }}</span>
                                         @endif

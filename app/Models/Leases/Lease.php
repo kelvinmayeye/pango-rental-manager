@@ -23,4 +23,9 @@ class Lease extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function lastLeasePayment(){
+        $latestPayment = $this->latest('created_at')->first();
+        return $latestPayment ? $latestPayment->amount : null;
+    }
 }

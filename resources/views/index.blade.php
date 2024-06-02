@@ -78,7 +78,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover table-sm">
                                 <thead>
                                     <tr>
                                         <th>SN</th>
@@ -101,15 +101,15 @@
                                             <th>{{ number_format(calculateTotalLeasePaid($lease->id)) }}</th>
                                             <td>{{ number_format(leaseBalance($lease->id)) }}</td>
                                             <td>{{ daysRemaining($lease->id) }} {{ Str::plural('day', daysRemaining($lease->id)) }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if ($lease->status_id == 1)
-                                                    <a href="" class="btn btn-outline-danger btn-sm">Not paid</a>
+                                                    <a href="javascript:void(0)" class="badge badge-danger">Not paid</a>
                                                 @elseif ($lease->status_id == 2)
-                                                    <a href="" class="btn btn-outline-success btn-sm">Paid</a>
+                                                    <a href="javascript:void(0)" class="badge badge-success">Paid</a>
                                                 @elseif ($lease->status_id == 3)
-                                                    <a href="" class="btn btn-outline-success btn-sm">Expire</a>
+                                                    <a href="javascript:void(0)" class="badge badge-warning">Expire</a>
                                                 @else
-                                                    <a href="" class="btn btn-outline-secondary btn-sm">Incomplete</a>
+                                                    <a href="javascript:void(0)" class="badge badge-secondary">Incomplete</a>
                                                 @endif
                                             </td>
                                         </tr>

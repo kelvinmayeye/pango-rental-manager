@@ -1,30 +1,5 @@
 @extends('backend.layouts.app')
 @section('content')
-   <!-- jQuery script -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    // Wait for the document to be ready
-    $(document).ready(function(){
-        // Attach an event listener to the dropdown change event
-        $('#lease_id').change(function(){
-            // Get the selected value from the dropdown
-            var selectedLease = $(this).val();
-
-            // Make an AJAX request to the 'lease' route
-            $.get('/lease/' + selectedLease, function(data){
-                // Update the content of the monthly_rate input field with the received data
-                $('#monthly_rate').val(data.amount);
-
-                // Clear any previous error messages
-                $('#errorContainer').text('');
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                // Display an error message in the error container
-                $('#errorContainer').text('AJAX request failed: ' + textStatus + ', ' + errorThrown);
-            });
-        });
-    });
-</script>
 
 <!-- Main content -->
 <section class="content pt-5">
@@ -79,7 +54,7 @@
                     </div>
                     <!-- Card footer with buttons -->
                     <div class="card-footer d-flex">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                         <a class="btn btn-danger mx-3" href="{{ route('payments.index') }}">Back</a>
                     </div>
                 </form>
@@ -92,4 +67,21 @@
 <div id="errorContainer"></div>
 <!-- /.content -->
 
+<!-- jQuery script -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#lease_id').change(function(){
+            var selectedLease = $(this).val();
+
+            $.get('/lease/' + selectedLease, function(data){
+                $('#monthly_rate').val(data.amount);
+                $('#errorContainer').text('');
+            })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    $('#errorContainer').text('AJAX request failed: ' + textStatus + ', ' + errorThrown);
+                });
+        });
+    });
+</script>
 @endsection

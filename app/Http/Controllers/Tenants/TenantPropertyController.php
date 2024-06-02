@@ -31,17 +31,6 @@ class TenantPropertyController extends Controller {
         return view( 'backend.tenantProperties.index', compact( 'tenantProperties','properties') );
     }
 
-    /**
-    * Show the form for creating a new resource.
-    */
-
-    public function create() {
-        //
-    }
-
-    /**
-    * Store a newly created resource in storage.
-    */
 
     public function store( Request $request ) {
 
@@ -53,7 +42,7 @@ class TenantPropertyController extends Controller {
             Session::flash('error', 'Tenant owns this property all ready');
             return back();
         }
-        
+
         $tenantProperty = new TenantProperty();
         $tenantProperty->tenant_id = $request->tenant_id;
         $tenantProperty->property_id = $request->property_id;
@@ -68,25 +57,6 @@ class TenantPropertyController extends Controller {
         }
     }
 
-    /**
-    * Display the specified resource.
-    */
-
-    public function show( TenantProperty $tenantProperty ) {
-        //
-    }
-
-    /**
-    * Show the form for editing the specified resource.
-    */
-
-    public function edit( TenantProperty $tenantProperty ) {
-        //
-    }
-
-    /**
-    * Update the specified resource in storage.
-    */
 
     public function update( Request $request, string $id) {
         $tenantProperty = TenantProperty::find( $id );
@@ -94,7 +64,7 @@ class TenantPropertyController extends Controller {
             Session::flash( 'error', 'Tenant Property not found' );
             return back();
         }
-        
+
         $tenantProperty->property_id = $request->property_id;
         $tenantProperty->save();
         Session::flash( 'success', 'Property changed successfully' );
@@ -111,7 +81,7 @@ class TenantPropertyController extends Controller {
             Session::flash( 'error', 'Tenant Property not found' );
             return back();
         }
-        if ( $tenantProperty->leases->isEmpty() ) {
+        if ( $tenantProperty->leases->isNotEmpty() ) {
             Session::flash( 'error', 'Cant delete tenant property has lease' );
             return back();
         } else {

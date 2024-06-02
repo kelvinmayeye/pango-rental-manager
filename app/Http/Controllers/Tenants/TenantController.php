@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tenants;
 
+use App\Models\Tenants\TenantProperty;
 use Illuminate\Http\Request;
 use App\Models\Tenants\Tenant;
 use App\Models\Properties\Property;
@@ -10,28 +11,21 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
 
 class TenantController extends Controller {
-    /**
-    * Display a listing of the resource.
-    */
 
     public function index() {
         $tenants = Tenant::where('user_id',auth()->user()->id)->latest()->paginate( 10 );
         return view( 'backend.tenants.index', compact( 'tenants' ) );
     }
 
-    /**
-    * Show the form for creating a new resource.
-    */
 
     public function create() {
         return view( 'backend.tenants.create' );
     }
 
-    /**
-    * Store a newly created resource in storage.
-    */
 
     public function store( Request $request ) {
+        $request->validate(['email'=>'required|unique:tenants']);
+        $request->validate(['phone_number'=>'required|unique:tenants']);
         $tenant = new Tenant();
         $tenant->first_name = $request->first_name;
         $tenant->middle_name = $request->middle_name;
@@ -52,9 +46,6 @@ class TenantController extends Controller {
         }
     }
 
-    /**
-    * Display the specified resource.
-    */
 
     public function show( Tenant $tenant ) {
         $tenant = Tenant::find($tenant->id);
@@ -68,12 +59,11 @@ class TenantController extends Controller {
             })->orWhereDoesntHave('tenantProperties');
         })->latest()->get();
 
-        return view('backend.tenants.show',compact('tenant','properties'));
+        $tenantProperties = TenantProperty::where('tenant_id',$tenant->id)->where('is_active',1)->get();
+
+        return view('backend.tenants.show',compact('tenant','properties','tenantProperties'));
     }
 
-    /**
-    * Show the form for editing the specified resource.
-    */
 
     public function edit( string $id ) {
         $tenant = Tenant::find($id);
@@ -83,10 +73,6 @@ class TenantController extends Controller {
         }
         return view('backend.tenants.edit',compact('tenant'));
     }
-
-    /**
-    * Update the specified resource in storage.
-    */
 
     public function update( Request $request, string $id ) {
         $tenant = Tenant::find($id);
@@ -113,10 +99,6 @@ class TenantController extends Controller {
         }
 
     }
-
-    /**
-    * Remove the specified resource from storage.
-    */
 
     public function destroy( string $id ) {
         $tenant = Tenant::find($id);
