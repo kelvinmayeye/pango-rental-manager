@@ -51,5 +51,8 @@ class DatabaseSeeder extends Seeder
              ]);
          }
 
+         DB::table('statuses')->insert(['name'=>'active','created_at'=>now(),'updated_at'=>now()]);
+         DB::table('statuses')->insert(['name'=>'inactive','created_at'=>now(),'updated_at'=>now()]);
+
     }
 }
